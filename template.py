@@ -37,12 +37,24 @@ class create_rnn(nn.Module):
     def __init__(self):
         super(create_rnn, self).__init__()
 
+        self.linear_2 = nn.Linear(3, 1)
 
     def forward(self, x):
-        
-            
+        ts = np.shape(x)[0]
+        bs = np.shape(x)[1]
+        ft = np.shape(x)[2]
+
+        Ht = torch.zeros(bs, ft)
+        H = torch.zeros(ts, bs, ft)
+
+        for t in range(ts):
+            Ct = self.tanh(self.linear_0(x[t]) + self.linear_1(x[Ht]))
+            Ht = self.linear_2(Ct)
+
+            H[t] = Ht#.clone()
+
         return H
-    
+
 "Define network"
 dense_network = create_dense(1,1)
 rnn_network = create_rnn()
@@ -51,7 +63,7 @@ rnn_network = create_rnn()
 parameters_rnn = rnn_network.parameters()
 parameters_dense = dense_network.parameters()
 
-betas=(0.9,0.9)
+betas=(0.9, 0.9)
 optimizer_rnn   = optim.Adam( params = parameters_rnn   , lr = 0.002 )
 optimizer_dense = optim.Adam( params = parameters_dense , lr = 0.002 )
 

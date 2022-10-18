@@ -26,10 +26,19 @@ import torch
 class create_dense(nn.Module):
     def __init__(self, dim_in, dim_out):
         super(create_dense, self).__init__()
+        self.dim_in = dim_in
+        self.dim_out = dim_out
+        self.tanh = nn.Tanh()
+        self.relu = nn.ReLU()
+        self.linear_0 = nn.Linear(self.dim_in, 10)
+        self.linear_1 = nn.Linear(10, 10)
+        self.linear_2 = nn.Linear(10, self.dim_out)
 
     def forward(self, x):
+        x = self.tanh(self.linear_0(x))
+        x = self.relu(self.linear_1(x))
+        x = self.linear_2(x)
         return x
-
 
 "Define rnn"
 
@@ -54,7 +63,7 @@ class create_rnn(nn.Module):
         H = torch.zeros(ts, bs, ft)
 
         for t in range(ts):
-            Ct = self.tanh(self.linear_0(x[t]) + self.linear_1(x[Ht]))
+            Ct = self.tanh(self.linear_0(x[t]) + self.linear_1(Ht))
             Ht = self.linear_2(Ct)
 
             H[t] = Ht  # .clone()
@@ -70,7 +79,7 @@ rnn_network = create_rnn()
 parameters_rnn = rnn_network.parameters()
 parameters_dense = dense_network.parameters()
 
-betas = (0.9, 0.9)
+betas = (0.5, 0.9) # default was 0.9,0.9
 optimizer_rnn = optim.Adam(params=parameters_rnn, lr=0.002)
 optimizer_dense = optim.Adam(params=parameters_dense, lr=0.002)
 

@@ -31,12 +31,16 @@ class create_dense(nn.Module):
         self.tanh = nn.Tanh()
         self.relu = nn.ReLU()
         self.linear_0 = nn.Linear(self.dim_in, 10)
+        #self.batch_norm_0 = nn.BatchNorm1d(1)
         self.linear_1 = nn.Linear(10, 10)
+        #self.batch_norm_1 = nn.BatchNorm1d(1)
         self.linear_2 = nn.Linear(10, self.dim_out)
 
     def forward(self, x):
         x = self.tanh(self.linear_0(x))
+        #x = self.batch_norm_0(x)
         x = self.relu(self.linear_1(x))
+        #x = self.batch_norm_1(x)
         x = self.linear_2(x)
         return x
 

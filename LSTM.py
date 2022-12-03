@@ -43,7 +43,7 @@ model.add(Dense(1))
 model.compile(loss='mean_squared_error',optimizer='adam')
 
 
-model.fit(X_train, y_train, epochs=50, batch_size=1)
+model.fit(X_train, y_train, epochs=50, batch_size=10)
 y_pred=model.predict(X_test)
 y_test=scaler.inverse_transform(y_test)
 y_pred=scaler.inverse_transform(y_pred)

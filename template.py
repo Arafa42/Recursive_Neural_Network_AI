@@ -66,6 +66,7 @@ class create_rnn(nn.Module):
 
 "Define network"
 dense_network = create_dense(1, 1)
+print(dense_network)
 rnn_network = create_rnn()
 
 "Define optimizer for neural network"
@@ -73,8 +74,8 @@ parameters_rnn = rnn_network.parameters()
 parameters_dense = dense_network.parameters()
 
 betas = (0.5, 0.9) # default was 0.9,0.9
-optimizer_rnn = optim.Adam(params=parameters_rnn, lr=0.002)
-optimizer_dense = optim.Adam(params=parameters_dense, lr=0.002)
+optimizer_rnn = optim.Adam(params=parameters_rnn, lr=0.002, betas=betas)
+optimizer_dense = optim.Adam(params=parameters_dense, lr=0.002, betas=betas)
 
 "Source: https://stackabuse.com/time-series-prediction-using-lstm-with-pytorch-in-python/"
 import seaborn as sb

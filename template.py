@@ -41,15 +41,11 @@ class create_dense(nn.Module):
         return x
 
 "Define rnn"
-
-
 class create_rnn(nn.Module):
     def __init__(self):
         super(create_rnn, self).__init__()
-
         self.tanh = nn.Tanh()
         self.relu = nn.ReLU()
-
         self.linear_0 = nn.Linear(1, 3)
         self.linear_1 = nn.Linear(1, 3)
         self.linear_2 = nn.Linear(3, 1)
@@ -58,16 +54,13 @@ class create_rnn(nn.Module):
         ts = np.shape(x)[0]
         bs = np.shape(x)[1]
         ft = np.shape(x)[2]
-
         Ht = torch.zeros(bs, ft)
         H = torch.zeros(ts, bs, ft)
 
         for t in range(ts):
             Ct = self.tanh(self.linear_0(x[t]) + self.linear_1(Ht))
             Ht = self.linear_2(Ct)
-
             H[t] = Ht  # .clone()
-
         return H
 
 
@@ -99,7 +92,7 @@ data = torch.tensor(data, dtype=torch.float32)
 ts = 12
 ts_batch = total_len - 2 * ts
 
-epochs = 20
+epochs = 30
 
 "Define loss function"
 # loss_function = nn.L1Loss()
